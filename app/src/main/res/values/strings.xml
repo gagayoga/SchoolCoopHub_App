@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SchoolCoopHub</string>
+    <string name="deskripsi_logo">Logo Aplikasi</string>
+
+    <!--  Text Login  -->
+    <string name="judul_login">Welcome Sob!</string>
+    <string name="deskripsi_login">Log In to your account</string>
+    <string name="hint_username">Masukan Email</string>
+    <string name="username">Username</string>
+    <string name="hint_password">Masukan Password</string>
+    <string name="password">Password</string>
+    <string name="button_login">Login</string>
+    <string name="text_bottom">Hungry? let`s continue with these</string>
+
+
+</resources>

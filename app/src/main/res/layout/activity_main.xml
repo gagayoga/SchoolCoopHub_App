@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:elevation="0dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp">
+
+                <LinearLayout
+                    android:id="@+id/textContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    tools:ignore="MissingConstraints">
+
+                    <TextView
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:text="Welcome Everyone !!"
+                        android:textColor="@color/black"
+                        android:textSize="24sp"
+                        android:fontFamily="@font/extrabold" />
+
+                    <TextView
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Transaksi lebih mudah dengan SchoolCoopHub, Rasakan kemudahannnya."
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10ssp"
+                        android:fontFamily="@font/semibold" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageLogout"
+                    android:layout_width="45dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_logout"
+                    app:layout_constraintStart_toEndOf="@id/textContainer"
+                    app:layout_constraintTop_toTopOf="@id/textContainer"
+                    app:layout_constraintBottom_toBottomOf="@id/textContainer"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginBottom="10dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="18dp"
+                    android:layout_marginEnd="18dp"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/red"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="0dp"
+                        app:cardUseCompatPadding="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:text="SMK N 5 Surakarta"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/bold"
+                            android:textSize="15sp"
+                            app:drawableStartCompat="@drawable/ic_location"
+                            app:drawableTint="@color/white" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cvHistory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/primary"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="0dp"
+                        app:cardUseCompatPadding="true">
+
+                        <TextView
+                            android:id="@+id/tvSource"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:fontFamily="@font/bold"
+                            android:text="Order History"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            app:drawableStartCompat="@drawable/ic_access_time"
+                            app:drawableTint="@color/white" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Categories"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/bold"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false">
+
+                    <LinearLayout
+                        android:id="@+id/kategori1"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:backgroundTint="@color/primary"
+                        android:background="@color/primary"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:layout_height="170dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:src="@drawable/categori1"
+                            android:layout_height="100dp"
+                            android:contentDescription="@string/deskripsi_logo" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:text="School Attribute"
+                            android:maxLines="2"
+                            android:fontFamily="@font/extrabold"
+                            android:textSize="24sp"
+                            android:textColor="@color/white"
+                            android:textAlignment="center"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/kategori2"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:backgroundTint="@color/primary"
+                        android:background="@color/primary"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:layout_height="170dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="93dp"
+                            android:contentDescription="@string/deskripsi_logo"
+                            android:src="@drawable/categori2" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:text="Drink"
+                            android:maxLines="2"
+                            android:fontFamily="@font/extrabold"
+                            android:textSize="24sp"
+                            android:textColor="@color/white"
+                            android:textAlignment="center"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/kategori3"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:backgroundTint="@color/primary"
+                        android:background="@color/primary"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:layout_height="170dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/categori3"
+                            android:contentDescription="@string/deskripsi_logo"
+                            android:layout_height="100dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:text="Other"
+                            android:maxLines="2"
+                            android:fontFamily="@font/extrabold"
+                            android:textSize="30sp"
+                            android:textColor="@color/white"
+                            android:textAlignment="center"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Barang Terbaru"
+                    android:textColor="@color/primary"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/bold"
+                    tools:ignore="SmallSp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="18dp"
+                    android:text="New and Popular"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -17,19 +17,31 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".HistoryStock"
+            android:name=".lib.data.stock.view.LaporanPenjualan"
             android:exported="false" />
         <activity
-            android:name=".StockByKategori"
+            android:name=".lib.data.stock.view.StockKosongView"
             android:exported="false" />
         <activity
-            android:name=".LoginPage"
+            android:name=".lib.data.updatestock.view.UpdateStock"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".lib.data.stock_user.view.GuestPage"
             android:exported="false" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".lib.data.stock.view.HistoryStock"
+            android:exported="false" />
+        <activity
+            android:name=".lib.data.stock.view.StockByKategori"
+            android:exported="false" />
+        <activity
+            android:name=".authentikasi.LoginPage"
+            android:exported="false" />
+        <activity
+            android:name=".lib.data.stock.view.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".authentikasi.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

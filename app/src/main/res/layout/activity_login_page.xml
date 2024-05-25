@@ -8,7 +8,7 @@
     android:layout_gravity="center_vertical"
     android:backgroundTintMode="@color/white"
     android:layout_marginHorizontal="40dp"
-    tools:context=".LoginPage"
+    tools:context=".authentikasi.LoginPage"
     android:fitsSystemWindows="true">
 
     <LinearLayout

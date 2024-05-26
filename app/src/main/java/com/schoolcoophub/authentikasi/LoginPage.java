@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -84,18 +85,14 @@ public class LoginPage extends AppCompatActivity {
 
                     String role = loginResponse.getData().getRole();
 
-//                    Toast.makeText(LoginPage.this, "Login Succesfully, Selamat Datang Kembali " + username, Toast.LENGTH_SHORT).show();
-//                    Intent intentHome = new Intent(getApplicationContext(), MainActivity.class);
-//                    startActivity(intentHome);
-//                    finish();
-
-                    if(role == "Administrator"){
-                        Toast.makeText(LoginPage.this, "Login Succesfully, Selamat Datang Kembali " + username, Toast.LENGTH_SHORT).show();
+                    Log.d("Hallo", role);
+                    if("Administrator".equals(role)){
+                        Toast.makeText(LoginPage.this, "Login Successfully, Selamat Datang Kembali " + username, Toast.LENGTH_SHORT).show();
                         Intent intentHome = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intentHome);
                         finish();
-                    }else{
-                        Toast.makeText(LoginPage.this, "Login Failed,Akses masuk ditolak ", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LoginPage.this, "Login Failed, Akses masuk ditolak ", Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Gson gson = new Gson();

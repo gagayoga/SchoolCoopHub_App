@@ -12,9 +12,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.schoolcoophub.R;
@@ -48,6 +50,9 @@ public class LaporanPenjualan extends AppCompatActivity {
     private TextView textTopBar, tvJumlahPorsi, tvTotalPrice, tvNamaBarang, txtTotalPendapatan, txtTotalBarang;
     private SharedPreferences sharedPreferences;
     private String userToken, idUser;
+    private LottieAnimationView loadingData;
+    private ImageView imageError;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,10 @@ public class LaporanPenjualan extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         userToken = getUserToken();
+
+        imageError = findViewById(R.id.imageError);
+        loadingData = findViewById(R.id.loadingData);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh);
 
         toolbar = findViewById(R.id.toolbar);
         txtTotalPendapatan = findViewById(R.id.txtTotalPendapatan);
@@ -108,7 +117,8 @@ public class LaporanPenjualan extends AppCompatActivity {
     // Lakukan permintaan API untuk mendapatkan data stok terbaru
     private void fetchLatestStock() {
         UserServices apiService = ApiClient.getUserServices(); // Mendapatkan instance dari UserServices dari ApiClient
-
+        loadingData.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setVisibility(View.GONE);
         // Gunakan token pengguna yang telah diambil
         String token = "Bearer " + userToken;
 
@@ -117,6 +127,8 @@ public class LaporanPenjualan extends AppCompatActivity {
         call.enqueue(new Callback<LaporanResponse>() {
             @Override
             public void onResponse(@NonNull Call<LaporanResponse> call, @NonNull Response<LaporanResponse> response) {
+                loadingData.setVisibility(View.GONE);
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
                 if (response.isSuccessful() && response.body() != null) {
                     LaporanResponse stockResponse = response.body();
                     if (stockResponse.getStatus() == 200) {
@@ -142,6 +154,8 @@ public class LaporanPenjualan extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<LaporanResponse> call, @NonNull Throwable t) {
+                loadingData.setVisibility(View.GONE);
+                imageError.setVisibility(View.GONE);
                 Toast.makeText(LaporanPenjualan.this, "Failed to fetch data: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

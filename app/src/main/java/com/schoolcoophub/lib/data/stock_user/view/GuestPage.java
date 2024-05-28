@@ -1,6 +1,7 @@
 package com.schoolcoophub.lib.data.stock_user.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.schoolcoophub.R;
 import com.schoolcoophub.lib.koneksi.ApiClient;
 import com.schoolcoophub.lib.koneksi.UserServices;
@@ -29,12 +31,18 @@ public class GuestPage extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private StockGuestAdapter stockAdapter;
-    private ImageView imageLogin;
+    private ImageView imageLogin, imageError;
+    private LottieAnimationView loadingData;
+    private NestedScrollView pageProduk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_page);
+
+        loadingData = findViewById(R.id.loadingData);
+        pageProduk = findViewById(R.id.pageProduk);
+        imageError = findViewById(R.id.imageError);
 
         setupRecyclerView();
         fetchLatestStock();
@@ -69,11 +77,15 @@ public class GuestPage extends AppCompatActivity {
     // Lakukan permintaan API untuk mendapatkan data stok terbaru
     private void fetchLatestStock() {
         UserServices apiService = ApiClient.getUserServices();
+        loadingData.setVisibility(View.VISIBLE);
+        pageProduk.setVisibility(View.GONE);
 
         Call<StockResponse> call = apiService.getGuestStock();
         call.enqueue(new Callback<StockResponse>() {
             @Override
             public void onResponse(Call<StockResponse> call, Response<StockResponse> response) {
+                loadingData.setVisibility(View.GONE);
+                pageProduk.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
                     StockResponse stockResponse = response.body();
                     if (stockResponse != null && stockResponse.getStatus() == 200) {
@@ -91,6 +103,8 @@ public class GuestPage extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<StockResponse> call, Throwable t) {
+                loadingData.setVisibility(View.GONE);
+                imageError.setVisibility(View.VISIBLE);
                 Toast.makeText(GuestPage.this, "Gagal terhubung ke server", Toast.LENGTH_SHORT).show();
             }
         });

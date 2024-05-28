@@ -3,6 +3,7 @@ package com.schoolcoophub.lib.data.stock.view;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.schoolcoophub.R;
 import com.schoolcoophub.lib.koneksi.ApiClient;
 import com.schoolcoophub.lib.koneksi.UserServices;
@@ -40,7 +42,8 @@ public class HistoryStock extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private SharedPreferences sharedPreferences;
     private String userToken, idUser;
-    private ImageView logoRefresh;
+    private ImageView logoRefresh, imageError;
+    private LottieAnimationView loadingData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,9 @@ public class HistoryStock extends AppCompatActivity {
                 finish();
             }
         });
+
+        imageError = findViewById(R.id.imageError);
+        loadingData = findViewById(R.id.loadingData);
 
         setupRecyclerView();
         fetchLatestStock();
@@ -98,7 +104,8 @@ public class HistoryStock extends AppCompatActivity {
     // Lakukan permintaan API untuk mendapatkan data stok terbaru
     private void fetchLatestStock() {
         UserServices apiService = ApiClient.getUserServices(); // Mendapatkan instance dari UserServices dari ApiClient
-
+        loadingData.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
         // Gunakan token pengguna yang telah diambil
         String token = "Bearer " + userToken;
 
@@ -107,6 +114,8 @@ public class HistoryStock extends AppCompatActivity {
         call.enqueue(new Callback<HistoryStockResponse>() {
             @Override
             public void onResponse(@NonNull Call<HistoryStockResponse> call, @NonNull Response<HistoryStockResponse> response) {
+                loadingData.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
                 if (response.isSuccessful() && response.body() != null) {
                     HistoryStockResponse stockResponse = response.body();
                     if (stockResponse.getStatus() == 200) {
@@ -132,6 +141,8 @@ public class HistoryStock extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<HistoryStockResponse> call, @NonNull Throwable t) {
+                loadingData.setVisibility(View.GONE);
+                imageError.setVisibility(View.VISIBLE);
                 Toast.makeText(HistoryStock.this, "Failed to fetch data: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

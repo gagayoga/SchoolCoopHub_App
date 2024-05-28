@@ -25,7 +25,7 @@ public class ApiClient {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 //.baseUrl("https://api-schoolcoophub-24.000webhostapp.com/api/users/")
-                .baseUrl("http://192.168.88.229:8000/api/users/")
+                .baseUrl("http://192.168.203.229:8000/api/users/")
                 .client(okHttpClient)
                 .build();
 

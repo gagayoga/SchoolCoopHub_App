@@ -12,9 +12,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.schoolcoophub.R;
 import com.schoolcoophub.lib.data.stock.adapter.StockKategoriAdapter;
 import com.schoolcoophub.lib.data.stock.adapter.StockKosongAdapter;
@@ -44,6 +46,8 @@ public class StockKosongView extends AppCompatActivity implements StockUpdateLis
     private SharedPreferences sharedPreferences;
     private String userToken, idUser;
     private int stockID;
+    private LottieAnimationView loadingData;
+    private ImageView imageError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,9 @@ public class StockKosongView extends AppCompatActivity implements StockUpdateLis
 
         sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         userToken = getUserToken();
+
+        imageError = findViewById(R.id.imageError);
+        loadingData = findViewById(R.id.loadingData);
 
         // Toolbar
         toolbar = findViewById(R.id.toolbar);
@@ -103,6 +110,8 @@ public class StockKosongView extends AppCompatActivity implements StockUpdateLis
     // Lakukan permintaan API untuk mendapatkan data stok terbaru
     private void fetchStockKosong() {
         UserServices apiService = ApiClient.getUserServices(); // Mendapatkan instance dari UserServices dari ApiClient
+        loadingData.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
 
         // Gunakan token pengguna yang telah diambil
         String token = "Bearer " + userToken;
@@ -112,6 +121,8 @@ public class StockKosongView extends AppCompatActivity implements StockUpdateLis
         call.enqueue(new Callback<StockKosongResponse>() {
             @Override
             public void onResponse(@NonNull Call<StockKosongResponse> call, @NonNull Response<StockKosongResponse> response) {
+                loadingData.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
                 if (response.isSuccessful() && response.body() != null) {
                     StockKosongResponse stockResponse = response.body();
                     if (stockResponse.getStatus() == 200) {
@@ -141,6 +152,8 @@ public class StockKosongView extends AppCompatActivity implements StockUpdateLis
 
             @Override
             public void onFailure(@NonNull Call<StockKosongResponse> call, @NonNull Throwable t) {
+                loadingData.setVisibility(View.GONE);
+                imageError.setVisibility(View.VISIBLE);
                 Toast.makeText(StockKosongView.this, "Failed to fetch data: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

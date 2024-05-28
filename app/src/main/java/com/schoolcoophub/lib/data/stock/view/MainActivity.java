@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.schoolcoophub.R;
 import com.schoolcoophub.lib.koneksi.ApiClient;
 import com.schoolcoophub.authentikasi.LogoutTask;
@@ -35,12 +36,13 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private StockAdapter stockAdapter;
     private LinearLayout menu1, menu2, menu3;
-    private ImageView logout;
+    private ImageView logout, imageError;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private CardView cvHistory, cvStockKosong, cvStock;
     private SharedPreferences sharedPreferences;
     private String userToken;
+    private LottieAnimationView loadingData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         userToken = getUserToken();
+
+        imageError = findViewById(R.id.imageError);
+        loadingData = findViewById(R.id.loadingData);
 
         if (userToken.isEmpty()) {
             Toast.makeText(this, "Token pengguna tidak tersedia. Silakan login kembali.", Toast.LENGTH_SHORT).show();
@@ -161,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
     // Lakukan permintaan API untuk mendapatkan data stok terbaru
     private void fetchLatestStock() {
         UserServices apiService = ApiClient.getUserServices(); // Mendapatkan instance dari UserServices dari ApiClient
-
+        loadingData.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
         // Gunakan token pengguna yang telah diambil
         String token = "Bearer " + userToken;
 
@@ -169,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<StockResponse>() {
             @Override
             public void onResponse(Call<StockResponse> call, Response<StockResponse> response) {
+                loadingData.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
                 if (response.isSuccessful()) {
                     StockResponse stockResponse = response.body();
                     if (stockResponse != null && stockResponse.getStatus() == 200) {
@@ -186,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<StockResponse> call, Throwable t) {
+                loadingData.setVisibility(View.GONE);
+                imageError.setVisibility(View.VISIBLE);
                 Toast.makeText(MainActivity.this, "Gagal terhubung ke server", Toast.LENGTH_SHORT).show();
             }
         });

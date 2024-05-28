@@ -14,9 +14,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.schoolcoophub.R;
@@ -49,11 +51,16 @@ public class StockByKategori extends AppCompatActivity {
     private String userToken, idUser;
     private int items, totalHarga;
     private int stockID;
+    private LottieAnimationView loadingData;
+    private ImageView imageError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_by_kategori);
+
+        imageError = findViewById(R.id.imageError);
+        loadingData = findViewById(R.id.loadingData);
 
         sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         userToken = getUserToken();
@@ -214,6 +221,8 @@ public class StockByKategori extends AppCompatActivity {
     // Lakukan permintaan API untuk mendapatkan data stok terbaru
     private void fetchLatestStock() {
         UserServices apiService = ApiClient.getUserServices(); // Mendapatkan instance dari UserServices dari ApiClient
+        loadingData.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
 
         // Gunakan token pengguna yang telah diambil
         String token = "Bearer " + userToken;
@@ -226,6 +235,8 @@ public class StockByKategori extends AppCompatActivity {
         call.enqueue(new Callback<StockKategoriResponse>() {
             @Override
             public void onResponse(@NonNull Call<StockKategoriResponse> call, @NonNull Response<StockKategoriResponse> response) {
+                loadingData.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
                 if (response.isSuccessful() && response.body() != null) {
                     StockKategoriResponse stockResponse = response.body();
                     if (stockResponse.getStatus() == 200) {
@@ -251,6 +262,8 @@ public class StockByKategori extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<StockKategoriResponse> call, @NonNull Throwable t) {
+                loadingData.setVisibility(View.GONE);
+                imageError.setVisibility(View.VISIBLE);
                 Toast.makeText(StockByKategori.this, "Failed to fetch data: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
